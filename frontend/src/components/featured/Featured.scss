@@ -1,0 +1,214 @@
+// .featured {
+//   // position: absolute;
+//   // top: 0;
+//   // right: 0;
+//   // left: 0;
+//   height: 650px;
+//   color: white;
+//   background-image: url('../../../public/img1.jpg');
+//   background-size: cover;
+//   background-position: center;
+
+//   .container {
+//     display: flex;
+//     flex-direction: column;
+//     // align-items: center;
+//     gap: 20px;
+//     padding: 110px 50px;
+//     width: 500px;
+//     // overflow: visible;
+      
+//       h1 {
+//         font-size: 50px;
+//         font-weight: 600;
+//       }
+
+//     .search {
+//         display: flex;
+//         align-items: center;
+//         gap: 30px;
+//         // .searchInput {
+//         //   display: flex;
+//         //   align-items: center;
+//         //   gap: 10px;
+//         //   img {
+//         //     width: 20px;
+//         //     height: 20px;
+//         //     margin: 10px;
+//         //   }
+
+//         //   input {
+//         //     border: none;
+//         //     outline: none;
+
+//         //     &::placeholder {
+//         //       color: gray;
+//         //     }
+//         //   }
+//         // }
+
+//         button {
+//           width: 140px;
+//           height: 50px;
+//           border: none;
+//           border-radius: 30px;
+//           font-weight: 500;
+//           cursor: pointer;
+//         }
+//         .btn1{
+//           background-color: #bab8aa;
+//           color: black;
+//           &:hover{
+//             background-color: #3e4136;
+//             color: white;
+//           }
+//         }
+//         .btn2{
+//           background-color: #98b85a;
+//           color: white;
+//           &:hover{
+//             background-color: white;
+//             color: black;
+//           }
+//         }
+//       }
+
+//       .popular {
+//         display: flex;
+//         align-items: center;
+//         width: 500px;
+//         gap: 10px;
+
+//         button {
+//           width: max-content;
+//           color: #ffffff;
+//           border: 1px solid white;
+//           padding: 5px 10px;
+//           border-radius: 20px;
+//           background-color: transparent;
+//           font-size: 14px;
+//           &:hover{
+//             background-color: #98b85a;
+//           }
+//         }
+//     }
+
+//   }
+// }
+.featured {
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  background-color: #1F4B3F;
+  color: white;
+
+  .container {
+    width: 1200px;
+    display: flex;
+    align-items: center;
+
+    .left {
+      flex: 2; // تأخذ قسمين
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+
+      h1 {
+        // font-size: 50px;
+        color: #FFFFFF;
+        font-size: 45px;
+        line-height: 1.3em;
+      }
+      span{
+        font-size: 13px;
+        line-height: 1
+      };
+      .search {
+        background-color: white;
+        border-radius: 60px 60px 60px 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        overflow: hidden;
+        padding: 10px 10px 10px 30px;
+        .searchInput {
+
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          img {
+            width: 20px;
+            height: 20px;
+          }
+
+          input {
+            border: none;
+            outline: none;
+            color:black;
+            &::placeholder {
+              color: gray;
+            }
+          }
+        }
+
+        button {
+          width: 120px;
+          height: 50px;
+          border: none;
+          border-radius: 80px;
+          background-color: #1dbf73;
+          color: white;
+          align-self: flex-end;
+          cursor: pointer;
+        }
+        button:hover{
+          transition: transform .4s ease-in;
+          transform: scale(1.04);
+          background-color: lighten($color: #1dbf73, $amount: 10%);
+        }
+      }
+
+      .popular {
+        display: block;
+        align-items: center;
+        gap: 10px;
+
+        span {
+          width: max-content;
+          margin-left: 3px;
+        }
+        div{
+          gap: 10px;
+          display: flex;
+          margin-top: 12px;
+        .tag-btn {
+          font-size: 12px;
+          font-weight: 600;
+          line-height: 30px;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+          fill: #FFFFFF;
+          color: #FFFFFF;
+          background-color: #FFFFFF24;
+          border-radius: 36px 36px 36px 36px;
+          padding: 0px 25px 0px 25px;
+          border: 1px solid #FFFFFF24;
+          transition: .4s;
+        }
+        .tag-btn:hover{
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        }
+      }
+    }
+
+    .right {
+      flex: 1; // تأخذ قسم واحد
+      height: 100%;
+      img {
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+}

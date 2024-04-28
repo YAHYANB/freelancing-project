@@ -1,0 +1,61 @@
+.add {
+  display: flex;
+  justify-content: center;
+  margin: 0 30px;
+
+  .container {
+    width: 1400px;
+    padding: 50px 0px;
+
+    h1 {
+      width: max-content;
+      margin-bottom: 30px;
+      color: rgb(100, 100, 100);
+      font-weight: 400;
+      font-size: xx-large;
+    }
+
+    .sections {
+      display: flex;
+      justify-content: space-between;
+      gap: 100px;
+
+      label {
+        color: rgb(112, 112, 112);
+        font-size: 18px;
+      }
+
+      .info,
+      .details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: space-between;
+
+        input,
+        select,
+        textarea {
+          padding: 20px;
+          border: 1px rgb(196, 196, 196) solid;
+          border-radius: 3px;
+        }
+
+        button {
+          border: none;
+          padding: 20px;
+          color: white;
+          font-weight: 500;
+          font-size: 18px;
+          background-color: #1dbf73;
+          cursor: pointer;
+          border-radius: 3px;
+        }
+        button:hover{
+          background-color: lighten($color: #1dbf73, $amount: 5%);
+          transition: all .3s ease;
+        }
+      }
+    }
+  }
+}

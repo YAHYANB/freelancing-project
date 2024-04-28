@@ -1,0 +1,35 @@
+.slide {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+
+  .container {
+    position: relative;
+    transition: all .3s ease;
+
+    .slick-prev,
+    .slick-next {
+      color: rgb(72, 42, 42);
+      background-color: rgb(214, 241, 241);
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      padding: 4px;
+      z-index: 99;
+    }
+
+    .slick-prev{
+      margin-left: -15px;
+    }
+    .slick-prev:hover,
+    .slick-next:hover {
+      background-color: #ffffff;
+    }
+    
+  }
+
+
+
+
+}

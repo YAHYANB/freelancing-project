@@ -1,0 +1,22 @@
+* {
+  .link {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+
+.ImSpinner2 {
+  margin-left: auto;
+  margin-right: auto;
+  animation: spin 2s linear infinite;
+  color: white;
+  font-size: 4xl;
+  margin: 2px 0 2px 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

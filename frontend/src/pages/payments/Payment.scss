@@ -1,0 +1,226 @@
+.payments {
+    margin: 80px 40px;
+
+    .container {
+        max-width: 1100px;
+        margin: 0 auto;
+
+        .hidde {
+            display: none;
+        }
+
+        .table-history {
+            background-color: #fff;
+            border-radius: 3px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px 50px;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin: 50px 0px 20px 0px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 20px 10px;
+            text-align: left;
+        }
+
+        th {
+            border-bottom: 1px solid #ddd;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        td {
+            color: rgba(117, 117, 117, 0.731);
+
+            span {
+                color: rgba(50, 50, 50, 0.865);
+            }
+        }
+
+        .ballance {
+            background-color: #fff;
+            border-radius: 3px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px 50px;
+
+            p {
+                font-size: 19px;
+                font-weight: 500;
+            }
+
+            span {
+                font-weight: 400;
+                padding: 0px 10px;
+            }
+        }
+
+        .divContent {
+            background-color: #fff;
+            border-radius: 3px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px 50px;
+
+            .paypal {
+                margin: 40px 0px;
+                p {
+                    color: #7a7a7acd;
+                    margin-bottom: 16px;
+                }
+                span {
+                    font-size: small;
+                    font-weight: 400;
+                    padding-right: 6px;
+                    font-style: normal;
+                }
+                .Link1 {
+                    padding: 7px 40px;
+                    background-color: #0070ba;
+                    color: white;
+                    border-radius: 3px;
+                    font-weight: 500;
+                    font-style: italic;
+                }
+
+                .Link2 {
+                    padding: 7px 40px;
+                    background-color: #f74200;
+                    color: white;
+                    border-radius: 3px;
+                    font-weight: 500;
+                    font-style: italic;
+                }
+
+                &:hover{
+                    .Link1 {
+                        background-color: #035a93;
+                    }
+                    .Link2 {
+                        background-color: #c53f0f;
+                    }
+                }
+            }
+            .methods {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                .items {
+                    background-color: #dddddd67;
+                    width: max-content;
+                    display: flex;
+                    align-items: center;
+                    gap: 30px;
+                    padding: 6px 7px;
+                    border-radius: 50px;
+
+                    img {
+                        width: 50px;
+                        height: 30px;
+                        object-fit: cover;
+                    }
+                    span {
+                        padding: 6px 15px;
+                        border-radius: 50px;
+                        cursor: pointer;
+                    }
+                    span.active {
+                        background-color: rgba(95, 206, 147, 0.55)
+                    }
+                    .spanCard {
+                        display: flex;
+                        align-items: center;
+                        font-style: italic;
+                        font-size: small;
+                        font-weight: 500;
+                        color: #292727;
+
+                        span {
+                            padding: 0px  6px;
+                        }
+                    }
+                }
+            }
+
+            .form {
+                margin: 30px 10px;
+
+                .cardLabel {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0px 30px 8px 0px;
+
+                    img {
+                        width: 200px;
+                    }
+                }
+
+                .inputForm {
+                    padding: 9px 20px;
+                    margin-bottom: 36px;
+                    border: 1px solid rgba(209, 209, 208, 0.699);
+                    border-radius: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    .block {
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+                    }
+
+                    input {
+                        outline: none;
+                        padding: 0px 80px 0px 0px;
+                    }
+                }
+
+                .content {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 30px;
+                    margin-bottom: 35px;
+
+                    .items {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 4px 0px;
+
+                        .no-spinners::-webkit-inner-spin-button,
+                        .no-spinners::-webkit-outer-spin-button {
+                            -webkit-appearance: none;
+                        }
+
+                        input {
+                            outline: none;
+                            padding: 9px 20px;
+                            border: 1px solid rgba(209, 209, 208, 0.699);
+                            border-radius: 8px;
+                        }
+                    }
+                }
+
+                button {
+                    border-radius: 50px;
+                    background-color: #309c39ca;
+                    padding: 8px 30px;
+                }
+
+                button:hover {
+                    background-color: #2c8033;
+                }
+            }
+        }
+
+    }
+}

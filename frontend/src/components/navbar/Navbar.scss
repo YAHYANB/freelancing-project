@@ -1,0 +1,160 @@
+.navbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1F4B3F;
+  position: sticky;
+  top: 0;
+  z-index: 998;
+  transition: 0.5s all ease;
+  color: white;
+  &.active {
+    background-color: white;
+    color: black;
+
+  }
+
+  .container {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 40px;
+
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      position: relative;
+
+      img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .options {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        z-index: 999;
+        border: 1px solid lightgrey;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 200px;
+        font-weight: 300;
+        color: gray;
+      }
+    }
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      // .searchInput {
+      //   display: flex;
+      //   align-items: center;
+      //   background-color: white;
+      //   padding: 4px 15px;
+      //   gap:  10px;
+      //   border-radius: 20px;
+      //   border: 1px solid ;
+        
+      //   input {
+      //     border: none;
+      //     outline: none;
+      //     padding-inline: 10px;
+
+      //     &::placeholder {
+      //       color: gray;
+      //     }
+      //   }
+      //   .icon{
+      //     cursor: pointer;
+      //   }
+      // }
+      .items{
+        display: flex;
+        align-items: center;
+        gap: 25px;
+      
+        }
+    
+
+    .logo {
+      font-size: 34px;
+      font-weight: bold;
+
+    }
+
+    
+    }
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+
+      span {
+        white-space: nowrap;
+      }
+      .lnk{
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+ 
+      } 
+      .join{
+        border: none;
+        border-radius: 30px;
+        background-color: #ffffff;
+        color: black;
+        padding: 2px 20px;
+        &:hover{
+          background-color: #5f9680;
+          color: white;
+        }
+        &.active{
+            border: none;
+            border-radius: 30px;
+            background-color: #5f9680;
+            color: white;
+            padding: 2px 20px;
+            &:hover{
+              background-color: #ffffff;
+              color: black;
+          }
+        }
+      }
+      .sing-in:hover{
+        color: #696969;
+      }
+  }
+
+  hr {
+    width: calc(100% - 2px);
+    height: 0;
+    border-top: 0.5px solid #ebe9e9;
+    border-bottom: 0.5px solid #ebe9e9;
+  }
+
+  .menu {
+    padding: 10px 0px;
+    display: flex;
+    gap: 10px;
+    color: rgb(154, 154, 154);
+    font-weight: 300;
+    font-family: "Montserrat", sans-serif;
+
+    .menuLink:hover {
+      color: #33753d;
+    }
+  }
+}
