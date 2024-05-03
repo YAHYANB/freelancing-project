@@ -1,13 +1,18 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Gigs.scss";
-import { gigs } from "../../data";
+import { ImSpinner2 } from 'react-icons/im';
+// import { gigs } from "../../data";
 import GigCard from "../../components/gigCard/GigCard";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllGig } from "../../redux/Gigs";
 
 function Gigs() {
   const [sort, setSort] = useState("sales");
   const [open, setOpen] = useState(false);
   const minRef = useRef();
   const maxRef = useRef();
+  const gigs = useSelector((i) => i.gigs?.gigs.gigs);
+  // const status = useSelector((state) => state.gigs?.status);
 
   const reSort = (type) => {
     setSort(type);
@@ -20,7 +25,7 @@ function Gigs() {
   }
   window.scrollTo(0, 0);
   return (
-    <div className="gigs">
+    <div className="gigs mx-10">
       <div className="container">
         <span className="breadcrumbs">Liverr {'>'} Graphics & Design {'>'}</span>
         <h1>AI Artists</h1>
@@ -53,8 +58,16 @@ function Gigs() {
           </div>
         </div>
         <div className="cards">
-          {gigs.map((gig) => (
-            <GigCard key={gig.id} item={gig} />
+          {gigs?.map((gig) => (
+            <>
+            {/* { status === 'loaging' ? <ImSpinner2 className='mx-auto animate-spin text-green-700 text-sm ' />
+              : */}
+
+              <GigCard key={gig.id} item={gig}/>
+              
+            {/* } */}
+            
+            </>
           ))}
         </div>
       </div>

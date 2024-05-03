@@ -18,7 +18,6 @@ class Gig extends Model
         'shortDescription',
         'deliveryTime',
         'revisionNumber',
-        'features',
         'price'
     ];
 
@@ -29,5 +28,9 @@ class Gig extends Model
     public function images()
     {
         return $this->hasMany(GigImages::class);
+    }
+    public function features()
+    {
+        return $this->hasMany(GigFeatures::class);
     }
 }

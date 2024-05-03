@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gig_images', function (Blueprint $table) {
+        Schema::create('gig_features', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('gig_id');
+            $table->string('feature');
+            $table->foreign('gig_id')->references('id')->on('gigs')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('gig_images');
+        Schema::dropIfExists('gig_features');
     }
 };

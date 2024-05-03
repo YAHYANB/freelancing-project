@@ -15,11 +15,6 @@ function Navbar() {
   const auth = JSON.parse(localStorage.getItem('token'))
   const user = useSelector((i) => i.user);
 
-  useEffect(() => {
-    if (auth) {
-      dispatch(fetchUser(auth));
-    }
-  }, [auth]);
 
   const isActive = () => {
     window.scrollY > 0 ? setActive(true) : setActive(false);
@@ -65,7 +60,10 @@ function Navbar() {
             {open && (
               <div className="options">
                 <Link className="link" to="/mygigs">
-                  Gigs
+                  My Gigs
+                </Link>
+                <Link className="link" to="/gigs">
+                  All Gigs
                 </Link>
                 <Link className="link" to="/add">
                   Add New Gig

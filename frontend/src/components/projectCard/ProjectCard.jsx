@@ -6,16 +6,16 @@ function ProjectCard({ item }) {
   return (
     <Link to="/gig/123" className="link">
     <div className="projectCard">
-      <img src={item.img} alt=""/>
+      <img src={'http://127.0.0.1:8000/images/gigs/coverImages/'+item.coverImage} alt=""/>
       <div className="info">
         <div className="user">
-          <img src={item.pp} alt="" />
-          <span>{item.username}</span>
+          <img src={'https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg'} alt="" />
+          <span>{item.user.fname + ' ' +item.user.lname}</span>
         </div>
-        <p>{item.desc}</p>
-        <div className="star">
+        <p className="truncate-overflow overflow-ellipsis line-clamp-3">{item.shortDescription}</p>
+        <div className="star my-2">
           <img src="./img/star.png" alt="" />
-          <span>{item.star}</span>
+          <span>{item.star || 5}</span>
         </div>
       </div>
       <hr />

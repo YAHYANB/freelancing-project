@@ -24,6 +24,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function gigs()
+    {
+        return $this->hasMany(Gig::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -3,16 +3,16 @@ import "./Home.scss";
 import Featured from "../../components/featured/Featured";
 import TrustedBy from "../../components/trustedBy/TrustedBy";
 import Slide from "../../components/slide/Slide";
-//import CatCard from "../../components/catCard/CatCard";
 import ProjectCard from "../../components/projectCard/ProjectCard";
-//import GigCard from "../../components/gigCard/GigCard"
-import { cards, projects, gigs } from "../../data";
 import { MdDone } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { MdArrowRightAlt } from "react-icons/md";
-import { useDispatch,useSelector } from "react-redux";
-import { fetchUserInfo } from "../../redux/User";
+import { useSelector } from "react-redux";
+
+
 function Home() {
+  const gigs = useSelector((i) => i.gigs?.gigs.gigs);
+
 
   window.scrollTo(0, 0);
   return (
@@ -139,18 +139,18 @@ function Home() {
       </div>
       <div>
         <div className="trends">
-          <div className="title">
+          <div className="title px-16">
             <div className="left">
               <h1>Trending Services</h1>
               <span>Most viewed and all-time top-selling services</span>
             </div>
-            <div className="right">
+            <div className="right pr-6">
               <Link to="/gigs">All Services</Link>
               <MdArrowRightAlt />
             </div>
           </div>
           <Slide>
-            {gigs.map((item) => (
+            {gigs?.map((item) => (
               <ProjectCard key={item.id} item={item} />
             ))}
           </Slide>
@@ -160,7 +160,7 @@ function Home() {
             <h1>Need something done?</h1>
             <span>Most viewed and all-time top-selling services</span>
           </div>
-          <div className="items">
+          <div className="items flex justify-center items-center px-14 space-x-3 pt-14">
             <div className="item">
               <img src="job.png" />
               <h2>Post a job</h2>

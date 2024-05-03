@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('gigs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('title');
+            $table->string('coverImage');
+            $table->string('category');
+            $table->text('description');
+            $table->string('serviceTitle');
+            $table->text('shortDescription');
+            $table->string('deliveryTime');
+            $table->integer('revisionNumber');
+            $table->decimal('price');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

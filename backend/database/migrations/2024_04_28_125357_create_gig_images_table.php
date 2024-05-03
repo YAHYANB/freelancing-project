@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('gig_images', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('gig_id');
+            $table->string('image');
+            $table->foreign('gig_id')->references('id')->on('gigs')->onDelete('cascade');
             $table->timestamps();
         });
     }
