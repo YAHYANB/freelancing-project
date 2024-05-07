@@ -74,6 +74,7 @@ const GigSlice = createSlice({
     initialState: {
         status: null,
         gigs: {},
+        gig: {},
         error: null
     },
     reducers: {},
@@ -110,7 +111,7 @@ const GigSlice = createSlice({
             })
             .addCase(fetchShowGig.fulfilled, (state, action) => {
                 state.status = 'success';
-                state.gigs = action.payload;
+                state.gig = action.payload;
 
             })
             .addCase(fetchShowGig.rejected, (state, action) => {
@@ -123,7 +124,7 @@ const GigSlice = createSlice({
             })
             .addCase(fetchUpdateGig.fulfilled, (state, action) => {
                 state.status = 'success';
-                state.gigs = action.payload;
+                state.gig = action.payload;
 
             })
             .addCase(fetchUpdateGig.rejected, (state, action) => {

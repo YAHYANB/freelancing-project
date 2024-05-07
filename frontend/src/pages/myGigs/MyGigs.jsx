@@ -51,7 +51,7 @@ function MyGigs() {
           {user?.gigs?.map((gig) => (
             <tr className="hover:opacity-85 cursor-pointer">
               <td className="px-3">
-                <Link to={`/gig/123`} className="block w-full h-full">
+                <Link to={`/gig/${gig.id}`} className="block w-full h-full">
                   <img
                     className="image"
                     src={'http://127.0.0.1:8000/images/gigs/coverImages/' + gig.coverImage}
@@ -59,9 +59,9 @@ function MyGigs() {
                   />
                 </Link>
               </td>
-              <td className="truncate-overflow overflow-ellipsis line-clamp-1 px-3"><Link to={`/gig/123`} className="block w-full h-full">{gig.shortDescription}</Link></td>
-              <td className="px-3"><Link to={`/gig/123`} className="block w-full h-full">{gig.price}</Link></td>
-              <td className="px-3"><Link to={`/gig/123`} className="block w-full h-full">0</Link></td>
+              <td className="truncate-overflow overflow-ellipsis line-clamp-1 px-3"><Link to={`/gig/${gig.id}`} className="block w-full h-full">{gig.shortDescription}</Link></td>
+              <td className="px-3"><Link to={`/gig/${gig.id}`} className="block w-full h-full">{gig.price}</Link></td>
+              <td className="px-3"><Link to={`/gig/${gig.id}`} className="block w-full h-full">0</Link></td>
 
               <td className="flex items-center space-x-5 justify-start my-3 px-5">
                 <Link to={`/myGigs/edit/${gig.id}`}>

@@ -33,4 +33,8 @@ class Gig extends Model
     {
         return $this->hasMany(GigFeatures::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

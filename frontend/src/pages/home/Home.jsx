@@ -139,7 +139,7 @@ function Home() {
       </div>
       <div>
         <div className="trends">
-          <div className="title px-16">
+          <div className="title px-2">
             <div className="left">
               <h1>Trending Services</h1>
               <span>Most viewed and all-time top-selling services</span>

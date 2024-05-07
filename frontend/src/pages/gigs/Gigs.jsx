@@ -25,7 +25,7 @@ function Gigs() {
   }
   window.scrollTo(0, 0);
   return (
-    <div className="gigs mx-10">
+    <div className="gigs mx-6">
       <div className="container">
         <span className="breadcrumbs">Liverr {'>'} Graphics & Design {'>'}</span>
         <h1>AI Artists</h1>
@@ -39,7 +39,7 @@ function Gigs() {
             <input ref={maxRef} type="number" placeholder="max" />
             <button onClick={apply}>Apply</button>
           </div>
-          <div className="right">
+          <div className="right pr-12">
             <span className="sortBy">Sort by</span>
             <span className="sortType">
               {sort === "sales" ? "Best Selling" : "Newest"}

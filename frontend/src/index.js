@@ -7,12 +7,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import AuthSlice from './redux/Auth';
 import UserSlice from './redux/User'
 import GigSlice from './redux/Gigs'
+import RatingSlice from './redux/Rating'
 import { BrowserRouter } from 'react-router-dom';
 const store = configureStore({
   reducer: {
     auth: AuthSlice,
     user: UserSlice,
-    gigs: GigSlice
+    gigs: GigSlice,
+    reviews: RatingSlice
   }
 })
 

@@ -11,8 +11,7 @@ const Update = () => {
   const token = JSON.parse(localStorage.getItem('token'))
   const user = useSelector((i) => i.user);
   const status = useSelector((i) => i.gigs.status);
-  const errors = useSelector((i) => i.gigs.gigs);
-  const location = useNavigate()
+  const errors = useSelector((i) => i.gigs.gig);
 
   const [gig, setGig] = useState({
     title: '',

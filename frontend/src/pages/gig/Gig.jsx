@@ -2,15 +2,73 @@ import "./Gig.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { gigs, imgs } from "../../data";
-import Slide from "../../components/slide/Slide";
-import ProjectCard from "../../components/projectCard/ProjectCard";
 import { MdArrowBack } from "react-icons/md";
 import { IoArrowForward } from "react-icons/io5";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchShowGig } from "../../redux/Gigs";
+import { Navigate, useParams } from "react-router-dom";
+import { ImSpinner2 } from 'react-icons/im';
+import Rating from '../../components/rating/Rating'
+import Modal from '../../components/modal/Modal'
+import { fetchDeleteRating, fetchRating } from "../../redux/Rating";
+import NotFound from "../../components/notFound/NotFound";
+import { BiLike } from "react-icons/bi";
+import { BiDislike } from "react-icons/bi";
 
 function Gig() {
+  const dispatch = useDispatch();
+  const { id } = useParams()
+  const token = JSON.parse(localStorage.getItem('token'));
+  const user = useSelector((state) => state.user?.user);
+  const gig = useSelector((state) => state.gigs?.gig.gig);
+  const status = useSelector((state) => state.reviews?.status);
+  const reviews = useSelector((state) => state.reviews?.reviews.reviews);
+  const [isLoading, setIsLoading] = useState(true);
+  const [reviewId, setReviewId] = useState(null);
+  const [stars, setStars] = useState(null);
+  const [modal, setModal] = useState(false);
+
+  useEffect(() => {
+    if (id) {
+      const data = {
+        token, id
+      }
+      Promise.all([
+        dispatch(fetchShowGig(data)),
+        dispatch(fetchRating(data))
+      ]).finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false)
+    }
+
+  }, [token, id])
+
+  useEffect(() => {
+    let stars = 0
+    let number = 0
+    reviews?.map((item) => {
+      stars = stars + item.rating
+      number = number + 1
+    })
+    setStars(Math.ceil(stars / number))
+  }, [reviews])
+
+  useEffect(() => {
+    console.log(stars)
+
+  }, [stars])
+
+  const handleDeleteGig = async (review_id) => {
+    setReviewId(review_id)
+    const req = {
+      id: review_id, token
+    }
+    const response = await dispatch(fetchDeleteRating(req))
+    if (response.payload.status === 200) {
+      window.location.href = `/gig/${id}`
+    }
+  }
   const [toggleClassName, setToggleClasName] = useState(1)
   const settings = {
     dots: true,
@@ -25,68 +83,61 @@ function Gig() {
   const changePack = (num) => {
     setToggleClasName(num)
   }
-  window.scrollTo(0, 0);
+  if (isLoading) {
+    return (
+      <ImSpinner2 className='mx-auto animate-spin text-green-700 text-5xl my-[300px]' />
+    )
+  }
+  if (!gig) {
+    return <NotFound />
+  }
+  // window.scrollTo(0, 0);
   return (
-    <div className="gig">
-      <div className="container">
+
+    <div className="gig py-10 ">
+      <div className="container px-10">
         <div className="left">
-          <span className="breadcrumbs">Liverr {'>'} Graphics & Design {'>'}</span>
-          <h1>I will create ai generated art for you</h1>
+          {/* <span className="breadcrumbs">Liverr {'>'} Graphics & Design {'>'}</span> */}
+          <h1 className="uppercase my-3">{gig.title}</h1>
           <div className="user">
             <img
               className="pp"
-              src="https://images.pexels.com/photos/720327/pexels-photo-720327.jpeg?auto=compress&cs=tinysrgb&w=1600"
+              src={"https://images.pexels.com/photos/720327/pexels-photo-720327.jpeg?auto=compress&cs=tinysrgb&w=1600"}
               alt=""
             />
-            <span>Anna Bell</span>
+            <span>{gig.user.fname + ' ' + gig.user.lname}</span>
+
             <div className="stars">
-              <img src="/img/star.png" alt="" />
-              <img src="/img/star.png" alt="" />
-              <img src="/img/star.png" alt="" />
-              <img src="/img/star.png" alt="" />
-              <img src="/img/star.png" alt="" />
-              <span>5</span>
+              {stars && [...Array(stars)].map((_, index) =>
+                <img src="/img/star.png" alt="" key={index} />
+              ) || null}
+              <span>{stars || 0}</span>
             </div>
+
           </div>
           <Slider {...settings} className='slide'>
-            <img
-              src="https://images.pexels.com/photos/1074535/pexels-photo-1074535.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-            />
-            <img
-              src="https://images.pexels.com/photos/1462935/pexels-photo-1462935.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-            />
-            <img
-              src="https://images.pexels.com/photos/1054777/pexels-photo-1054777.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-            />
+            {gig.images.map((item, index) =>
+              <img
+                className="slide-img rounded-sm w-40 h-[30rem] object-cover"
+                src={`http://127.0.0.1:8000/images/gigs/images/${item.image}`}
+                alt=""
+                key={index}
+              />
+            )}
           </Slider>
-          <h2>About This Gig</h2>
+          <h2 className="uppercase text-lg">About This Gig</h2>
           <p>
-            I use an AI program to create images based on text prompts. This
-            means I can help you to create a vision you have through a textual
-            description of your scene without requiring any reference images.
-            Some things I've found it often excels at are: Character portraits
-            (E.g. a picture to go with your DnD character) Landscapes (E.g.
-            wallpapers, illustrations to compliment a story) Logos (E.g. Esports
-            team, business, profile picture) You can be as vague or as
-            descriptive as you want. Being more vague will allow the AI to be
-            more creative which can sometimes result in some amazing images. You
-            can also be incredibly precise if you have a clear image of what you
-            want in mind. All of the images I create are original and will be
-            found nowhere else. If you have any questions you're more than
-            welcome to send me a message.
+            {gig.description}
           </p>
           <div className="seller">
-            <h2>About The Seller</h2>
+            <h2 className="uppercase text-lg">About The Seller</h2>
             <div className="user">
               <img
                 src="https://images.pexels.com/photos/720327/pexels-photo-720327.jpeg?auto=compress&cs=tinysrgb&w=1600"
                 alt=""
               />
               <div className="info">
-                <span>Anna Bell</span>
+                <span>{gig.user.fname + ' ' + gig.user.lname}</span>
                 <div className="stars">
                   <img src="/img/star.png" alt="" />
                   <img src="/img/star.png" alt="" />
@@ -102,7 +153,7 @@ function Gig() {
               <div className="items">
                 <div className="item">
                   <span className="title">From</span>
-                  <span className="desc">USA</span>
+                  <span className="desc">{gig.user.country}</span>
                 </div>
                 <div className="item">
                   <span className="title">Member since</span>
@@ -131,132 +182,70 @@ function Gig() {
             </div>
           </div>
           <div className="reviews">
-            <h2>Reviews</h2>
-            <div className="item">
-              <div className="user">
-                <img
-                  className="pp"
-                  src="https://images.pexels.com/photos/839586/pexels-photo-839586.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                  alt=""
-                />
-                <div className="info">
-                  <span>Garner David</span>
-                  <div className="country">
+            <div className="flex justify-between items-center pb-12">
+              <h2 className="uppercase text-lg">Reviews</h2>
+              {!modal &&
+                <button className="bg-[#1dbf73] text-white px-4 py-1  w-[130px] rounded-sm hover:opacity-85" onClick={() => setModal(!modal)}>
+                  Add Review
+                </button>}
+            </div>
+            <Modal isOpen={modal} onClose={() => setModal(false)}>
+              {modal && <Rating gig={gig} setModal={setModal} />}
+            </Modal>
+
+            {reviews && reviews.map((item) =>
+              <div className="item">
+                <div className="flex justify-between items-center">
+                  <div className="user">
                     <img
-                      src="https://fiverr-dev-res.cloudinary.com/general_assets/flags/1f1fa-1f1f8.png"
+                      className="pp"
+                      src="https://images.pexels.com/photos/839586/pexels-photo-839586.jpeg?auto=compress&cs=tinysrgb&w=1600"
                       alt=""
                     />
-                    <span>United States</span>
+                    <div className="info">
+                      <span>{item.user.fname + ' ' + item.user.lname}</span>
+                      <div className="country">
+                        <span>{item.user.country}</span>
+                      </div>
+                    </div>
                   </div>
+                  {item.user.id === user.id &&
+                    <div>
+                      {status === 'loading' && reviewId === item.id ?
+                        <ImSpinner2 className='mx-auto animate-spin text-black text-sm ' />
+                        :
+                        <button onClick={() => handleDeleteGig(item.id)}>
+                          <svg width="20px" height="20px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" stroke-width="3" stroke="#000000" fill="none"><line x1="8.06" y1="8.06" x2="55.41" y2="55.94" /><line x1="55.94" y1="8.06" x2="8.59" y2="55.94" /></svg>
+                        </button>
+
+                      }
+                    </div>}
+                </div>
+
+                <div className="stars flex items-center justify-start">
+
+                  {[...Array(item.rating)].map((_, index) =>
+                    <img src="/img/star.png" alt="" key={index} />
+                  )
+                  }
+                  <span>{item.rating}</span>
+                </div>
+                <p>
+                  {item.comment}
+                </p>
+                <div className="helpful">
+                  <span>Helpful?</span>
+                  <BiLike className="cursor-pointer" />
+                  {/* <img src="/img/like.png" alt="" /> */}
+                  <span>Yes</span>
+                  <BiDislike className="cursor-pointer" />
+                  {/* <img src="/img/dislike.png" alt="" /> */}
+                  <span>No</span>
                 </div>
               </div>
-              <div className="stars">
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <span>5</span>
-              </div>
-              <p>
-                I just want to say that art_with_ai was the first, and after
-                this, the only artist Ill be using on Fiverr. Communication was
-                amazing, each and every day he sent me images that I was free to
-                request changes to. They listened, understood, and delivered
-                above and beyond my expectations. I absolutely recommend this
-                gig, and know already that Ill be using it again very very soon
-              </p>
-              <div className="helpful">
-                <span>Helpful?</span>
-                <img src="/img/like.png" alt="" />
-                <span>Yes</span>
-                <img src="/img/dislike.png" alt="" />
-                <span>No</span>
-              </div>
-            </div>
+            )}
             <hr />
-            <div className="item">
-              <div className="user">
-                <img
-                  className="pp"
-                  src="https://images.pexels.com/photos/4124367/pexels-photo-4124367.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                  alt=""
-                />
-                <div className="info">
-                  <span>Sidney Owen</span>
-                  <div className="country">
-                    <img
-                      src="https://fiverr-dev-res.cloudinary.com/general_assets/flags/1f1e9-1f1ea.png"
-                      alt=""
-                    />
-                    <span>Germany</span>
-                  </div>
-                </div>
-              </div>
-              <div className="stars">
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <span>5</span>
-              </div>
-              <p>
-                The designer took my photo for my book cover to the next level!
-                Professionalism and ease of working with designer along with
-                punctuality is above industry standards!! Whatever your project
-                is, you need this designer!
-              </p>
-              <div className="helpful">
-                <span>Helpful?</span>
-                <img src="/img/like.png" alt="" />
-                <span>Yes</span>
-                <img src="/img/dislike.png" alt="" />
-                <span>No</span>
-              </div>
-            </div>
-            <hr />
-            <div className="item">
-              <div className="user">
-                <img
-                  className="pp"
-                  src="https://images.pexels.com/photos/842980/pexels-photo-842980.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                  alt=""
-                />
-                <div className="info">
-                  <span>Lyle Giles </span>
-                  <div className="country">
-                    <img
-                      src="https://fiverr-dev-res.cloudinary.com/general_assets/flags/1f1fa-1f1f8.png"
-                      alt=""
-                    />
-                    <span>United States</span>
-                  </div>
-                </div>
-              </div>
-              <div className="stars">
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <img src="/img/star.png" alt="" />
-                <span>5</span>
-              </div>
-              <p>
-                Amazing work! Communication was
-                amazing, each and every day he sent me images that I was free to
-                request changes to. They listened, understood, and delivered
-                above and beyond my expectations. I absolutely recommend this
-                gig, and know already that Ill be using it again very very soon
-              </p>
-              <div className="helpful">
-                <span>Helpful?</span>
-                <img src="/img/like.png" alt="" />
-                <span>Yes</span>
-                <img src="/img/dislike.png" alt="" />
-                <span>No</span>
-              </div>
-            </div>
+
           </div>
         </div>
         <div className="right">

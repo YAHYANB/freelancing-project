@@ -14,7 +14,7 @@ class GigController extends Controller
     public function index()
     {
         try {
-            $gigs = Gig::with(['images', 'features','user'])->get();
+            $gigs = Gig::with(['images', 'features','user','reviews'])->get();
             return response()->json(['gigs' => $gigs, 'status' => 200]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage(), 'status' => 404]);
@@ -38,7 +38,7 @@ class GigController extends Controller
                 'revisionNumber' => ['required'],
                 'price' => ['required'],
                 'images.*' => ['required', 'image', 'mimes:jpeg,png,jpg,gif'],
-                'images' => ['required', 'array', 'min:1', 'max:4'],
+                'images' => ['required', 'array', 'min:4', 'max:8'],
                 'features' => ['required', 'array', 'max:4', 'min:1']
             ]);
 
@@ -177,7 +177,7 @@ class GigController extends Controller
     public function show($id)
     {
         try {
-            $gig = Gig::where('id', $id)->with(['images', 'features'])->first();
+            $gig = Gig::where('id', $id)->with(['images', 'features','user','reviews'])->first();
 
             if (!$gig) {
                 return response()->json(['error' => 'Gig not found.', 'status' => 404]);

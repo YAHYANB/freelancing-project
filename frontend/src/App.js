@@ -20,6 +20,7 @@ import Payment from "./pages/payments/Payment";
 import MyProfile from "./pages/myProfile/MyProfile";
 import { ImSpinner2 } from 'react-icons/im';
 import { fetchAllGig } from "./redux/Gigs";
+import NotFound from "./components/notFound/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<Login />} />
           </Routes>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </>
     );
@@ -99,9 +100,9 @@ function App() {
           <Route path="/MyProfile" element={<MyProfile />} />
           <Route path="/login" element={<Navigate to="/MyProfile" />} />
           <Route path="/register" element={<Navigate to="/MyProfile" />} />
-          <Route path="*" element={'not found'} />
+          <Route path="*" element={<NotFound/>} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   );
