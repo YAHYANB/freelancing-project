@@ -16,6 +16,12 @@ return new class extends Migration
             $table->string('fname');
             $table->string('lname');
             $table->string('country');
+            $table->string('profileImg')->nullable();
+            $table->string('displayName')->nullable();
+            $table->text('description')->nullable();
+            $table->decimal('total_earnings', 15, 2)->default(0);
+            $table->string('bio')->nullable();
+            $table->string('url')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

@@ -9,12 +9,17 @@ import UserSlice from './redux/User'
 import GigSlice from './redux/Gigs'
 import RatingSlice from './redux/Rating'
 import { BrowserRouter } from 'react-router-dom';
+import Payment from './redux/Payment';
+import Order from './redux/Order';
+
 const store = configureStore({
   reducer: {
     auth: AuthSlice,
     user: UserSlice,
     gigs: GigSlice,
-    reviews: RatingSlice
+    reviews: RatingSlice,
+    payment: Payment,
+    order: Order
   }
 })
 

@@ -35,6 +35,22 @@
         border-radius: 50%;
         object-fit: cover;
       }
+      .optionsNotifi {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        z-index: 999;
+        border: 1px solid lightgrey;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 300px;
+        font-weight: 300;
+        color: gray;
+      }
       .options {
         position: absolute;
         top: 50px;

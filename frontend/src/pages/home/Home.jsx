@@ -8,132 +8,36 @@ import { MdDone } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { MdArrowRightAlt } from "react-icons/md";
 import { useSelector } from "react-redux";
+import categories from '../../categories.json'
 
-
-function Home() {
-  const gigs = useSelector((i) => i.gigs?.gigs.gigs);
+function Home({ search, setSearch }) {
+  const gigs = useSelector((i) => i.gigs?.gigs?.gigs);
+  const auth = useSelector((state) => state.user?.user);
 
 
   window.scrollTo(0, 0);
   return (
     <div className="home">
-      <Featured />
+      <Featured search={search} setSearch={setSearch} />
       <TrustedBy />
       <div className="explore">
         <div className="container">
           <h1>Browse services by category</h1>
           <p>here you can find all categories we have</p>
           <div className="items">
-            <div className="item myItem">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/graphics-design.d32a2f8.svg"
-                alt=""
-              />
-              <h2>Graphics & Design</h2>
-              <div className="line"></div>
-              <span className="content">
-                Software Engineer, Web / Mobile Developer & More
-              </span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/online-marketing.74e221b.svg"
-                alt=""
-              />
-              <h2>Digital Marketing</h2>
-              <div className="line"></div>
-              <span className="content">
-                Software Engineer, Web / Mobile Developer & More
-              </span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/writing-translation.32ebe2e.svg"
-                alt=""
-              />
-              <h2>Writing & Translation</h2>
-              <div className="line"></div>
-              <span className="content">
-                Software Engineer, Web / Mobile Developer & More
-              </span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/video-animation.f0d9d71.svg"
-                alt=""
-              />
-              <h2>Video & Animation</h2>
-              <div className="line"></div>
-              <span className="content">
-                Software Engineer, Web / Mobile Developer & More
-              </span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/music-audio.320af20.svg"
-                alt=""
-              />
-              <h2>Music & Audio</h2>
-              <div className="line"></div>
-              <span className="content">
-                Software Engineer, Web / Mobile Developer & More
-              </span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/programming.9362366.svg"
-                alt=""
-              />
-              <h2>Programming & Tech</h2>
-              <div className="line"></div>
-              <span className="content">
-                Software Engineer, Web / Mobile Developer & More
-              </span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/business.bbdf319.svg"
-                alt=""
-              />
-              <h2>Business</h2>
-              <div className="line"></div>
-              <span className="content">
-                Software Engineer, Web / Mobile Developer & More
-              </span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/lifestyle.745b575.svg"
-                alt=""
-              />
-              <h2>Lifestyle</h2>
-              <div className="line"></div>
-              <span className="content">
-                Software Engineer, Web / Mobile Developer & More
-              </span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/data.718910f.svg"
-                alt=""
-              />
-              <h2>Data</h2>
-              <div className="line"></div>
-              <span className="content">
-                Software Engineer, Web / Mobile Developer & More
-              </span>
-            </div>
-            <div className="item">
-              <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/photography.01cf943.svg"
-                alt=""
-              />
-              <h2>Photography</h2>
-              <div className="line"></div>
-              <span className="content">
-                Software Engineer, Web / Mobile Developer & More
-              </span>
-            </div>
+            {categories.map((item) =>
+              <Link to={`/gigs/${item.name}`} className="item myItem">
+                <img
+                  src={item.image}
+                  alt=""
+                />
+                <h2>{item.name}</h2>
+                <div className="line"></div>
+                <span className="content">
+                  {item.content}
+                </span>
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -149,11 +53,19 @@ function Home() {
               <MdArrowRightAlt />
             </div>
           </div>
-          <Slide>
-            {gigs?.map((item) => (
-              <ProjectCard key={item.id} item={item} />
-            ))}
-          </Slide>
+          {gigs?.length > 3 ?
+            <Slide>
+              {gigs?.map((item, i) => (
+                <ProjectCard key={i} item={item} />
+              ))}
+            </Slide>
+            :
+            <div className="flex space-x-5">
+              {gigs?.map((item, i) => (
+                <ProjectCard key={i} item={item} />
+              ))}
+            </div>
+          }
         </div>
         <div className="done">
           <div className="title">
@@ -226,7 +138,7 @@ function Home() {
               </div>
             </div>
             {/* <div> */}
-            <Link to="/" className="get-start">
+            <Link to={auth ? "/add" : '/login'} className="get-start">
               Get Started
             </Link>
             {/* </div> */}
@@ -241,7 +153,7 @@ function Home() {
               million CVs
             </span>
             <div>
-              <Link className="get-start">Get Started</Link>
+              <Link className="get-start" to={auth ? "/gigs" : '/login'}>Get Started</Link>
             </div>
           </div>
           <img src="blob.jpeg" />

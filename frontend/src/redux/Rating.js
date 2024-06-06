@@ -47,6 +47,7 @@ export const fetchDeleteRating = createAsyncThunk('rating/fetchDeleteRating', as
 
 })
 
+
 const RatingSlice = createSlice({
     name: 'rating',
     initialState: {

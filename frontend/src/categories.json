@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Graphics & Design",
+    "image": "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/graphics-design.d32a2f8.svg",
+    "content": "Creative solutions for your design needs."
+  },
+  {
+    "name": "Digital Marketing",
+    "image": "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/online-marketing.74e221b.svg",
+    "content": "Boost your online presence with effective marketing strategies."
+  },
+  {
+    "name": "Writing & Translation",
+    "image": "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/writing-translation.32ebe2e.svg",
+    "content": "Professional writing and translation services tailored to your needs."
+  },
+  {
+    "name": "Video & Animation",
+    "image": "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/video-animation.f0d9d71.svg",
+    "content": "Engaging video and animation services to captivate your audience."
+  },
+  {
+    "name": "Music & Audio",
+    "image": "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/music-audio.320af20.svg",
+    "content": "Create and enhance your audio projects with professional expertise."
+  },
+  {
+    "name": "Programming & Tech",
+    "image": "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/programming.9362366.svg",
+    "content": "Expert programming and tech solutions for your projects."
+  },
+  {
+    "name": "Business",
+    "image": "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/business.bbdf319.svg",
+    "content": "Business solutions to help you succeed in today's competitive market."
+  },
+  {
+    "name": "Lifestyle",
+    "image": "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/lifestyle.745b575.svg",
+    "content": "Services to enhance your personal and professional lifestyle."
+  },
+  {
+    "name": "Data",
+    "image": "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/data.718910f.svg",
+    "content": "Data analysis and management solutions to drive insights and innovation."
+  },
+  {
+    "name": "Photography",
+    "image": "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/photography.01cf943.svg",
+    "content": "Capture unforgettable moments with professional photography services."
+  }
+]

@@ -29,7 +29,7 @@ const Register = () => {
     await dispatch(fetchRegister(user));
   };
 
-  window.scrollTo(0, 0);
+  // window.scrollTo(0, 0);
   return (
     <div className="register-page">
       <div className="register-container">

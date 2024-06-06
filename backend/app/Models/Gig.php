@@ -37,4 +37,12 @@ class Gig extends Model
     {
         return $this->hasMany(Review::class);
     }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

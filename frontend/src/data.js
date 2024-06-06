@@ -320,3 +320,10 @@ export const skillsByDomain = [
       "Quantum Machine Learning",
       "Quantum Error Correction"
   ]
+  export const languages = [
+    'Arabic', 'French', 'English', 'Deutsh', 'Spanish'
+  ]
+  
+  export const levels = [
+    'Basic', 'Conversational', 'Fluent', 'Native'
+  ]

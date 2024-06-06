@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAddGig, fetchShowGig, fetchUpdateGig } from "../../redux/Gigs";
 import { ImSpinner2 } from 'react-icons/im'
 import { useNavigate, useParams } from "react-router-dom";
+import categories from '../../categories.json';
 
 const Add = () => {
   const dispatch = useDispatch()
   const token = JSON.parse(localStorage.getItem('token'))
-  const user = useSelector((i) => i.user);
+  const user = useSelector((i) => i.user?.user);
   const status = useSelector((i) => i.gigs.status);
   const errors = useSelector((i) => i.gigs.gigs);
   const location = useNavigate()
@@ -74,7 +75,7 @@ const Add = () => {
   const handleForm = async (e) => {
     e.preventDefault()
     const formData = new FormData()
-    formData.append('user_id', user.user.id)
+    formData.append('user_id', user.id)
     formData.append('title', gig.title)
     formData.append('category', gig.category)
     formData.append('coverImage', gig.coverImage)
@@ -96,14 +97,20 @@ const Add = () => {
       token, formData
     }
 
-    const response = await dispatch(fetchAddGig(data))
-    if (response?.payload.status === 201) {
-      window.location.href = '/gigs'
+    if (user.description && user.skills.length > 0 && user.languages.length > 0) {
+      const response = await dispatch(fetchAddGig(data))
+      if (response?.payload.status === 201) {
+        window.location.href = '/gigs'
+      }
+    } else {
+      console.log('ddd',user)
+      location('/MyProfile')
     }
 
+
   }
-  return (
-    <div className="add">
+  return ( 
+    <div className="add px-14">
       <div className="container">
         <h1>Add New Gig</h1>
         <form className="sections" onSubmit={handleForm}>
@@ -119,11 +126,11 @@ const Add = () => {
             {errors?.error?.title && <span className="text-sm text-red-600">{errors.error.title}</span>}
 
             <label htmlFor="">Category</label>
-            <select name="category" value={gig.category} onChange={handleInputs} id="cats" required>
-              <option value="design">Design</option>
-              <option value="web">Web Development</option>
-              <option value="animation">Animation</option>
-              <option value="music">Music</option>
+            <select name="category" value={gig.category} onChange={handleInputs} id="cats" required style={{ maxHeight: "200px", overflowY: "auto" }}>
+              <option selected>-------</option>
+              {categories.map((i)=>
+                <option value={i.name}>{i.name}</option>
+              )}
             </select>
             {errors?.error?.category && <span className="text-sm text-red-600">{errors.error.category}</span>}
 

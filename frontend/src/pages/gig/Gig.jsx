@@ -6,8 +6,8 @@ import { MdArrowBack } from "react-icons/md";
 import { IoArrowForward } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchShowGig } from "../../redux/Gigs";
-import { Navigate, useParams } from "react-router-dom";
+import { fetchAllGig, fetchShowGig } from "../../redux/Gigs";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { ImSpinner2 } from 'react-icons/im';
 import Rating from '../../components/rating/Rating'
 import Modal from '../../components/modal/Modal'
@@ -15,6 +15,9 @@ import { fetchDeleteRating, fetchRating } from "../../redux/Rating";
 import NotFound from "../../components/notFound/NotFound";
 import { BiLike } from "react-icons/bi";
 import { BiDislike } from "react-icons/bi";
+import { fetchAddChat } from "../message/chatRequests";
+import Pay from "../../components/pay/Pay";
+import { format } from 'timeago.js'
 
 function Gig() {
   const dispatch = useDispatch();
@@ -22,12 +25,16 @@ function Gig() {
   const token = JSON.parse(localStorage.getItem('token'));
   const user = useSelector((state) => state.user?.user);
   const gig = useSelector((state) => state.gigs?.gig.gig);
+  const gigs = useSelector((i) => i.gigs?.gigs.gigs);
   const status = useSelector((state) => state.reviews?.status);
   const reviews = useSelector((state) => state.reviews?.reviews.reviews);
   const [isLoading, setIsLoading] = useState(true);
   const [reviewId, setReviewId] = useState(null);
   const [stars, setStars] = useState(null);
+  const [userStars, setUserStars] = useState(null);
   const [modal, setModal] = useState(false);
+  const [review, setReview] = useState([]);
+  const [allGigs, setAllGigs] = useState([]);
 
   useEffect(() => {
     if (id) {
@@ -36,13 +43,19 @@ function Gig() {
       }
       Promise.all([
         dispatch(fetchShowGig(data)),
-        dispatch(fetchRating(data))
+        dispatch(fetchRating(data)),
+        dispatch(fetchAllGig())
       ]).finally(() => setIsLoading(false));
     } else {
       setIsLoading(false)
     }
 
   }, [token, id])
+
+  useEffect(() => {
+    setReview(reviews)
+    console.log(reviews)
+  }, [reviews])
 
   useEffect(() => {
     let stars = 0
@@ -55,20 +68,41 @@ function Gig() {
   }, [reviews])
 
   useEffect(() => {
-    console.log(stars)
+    if (gigs && allGigs) {
+      let totalStars = 0;
+      let totalReviews = 0;
 
-  }, [stars])
+      allGigs.forEach(gig => {
+        gig.reviews.forEach(review => {
+          totalStars += review.rating;
+          totalReviews += 1;
+        });
+      });
+
+      const averageStars = totalReviews ? (totalStars / totalReviews).toFixed(0) : 0;
+      setUserStars(averageStars);
+    }
+  }, [gigs, allGigs]);
+
+  useEffect(() => {
+    setAllGigs(gigs?.filter((i) => parseInt(i.user_id) === parseInt(id)))
+  }, [gigs])
 
   const handleDeleteGig = async (review_id) => {
-    setReviewId(review_id)
+    setReviewId(review_id);
     const req = {
-      id: review_id, token
+      id: review_id,
+      token
     }
-    const response = await dispatch(fetchDeleteRating(req))
+    const response = await dispatch(fetchDeleteRating(req));
     if (response.payload.status === 200) {
-      window.location.href = `/gig/${id}`
+      setReview(review.filter(i => i.id !== review_id));
+      setReviewId(null);
     }
   }
+
+
+
   const [toggleClassName, setToggleClasName] = useState(1)
   const settings = {
     dots: true,
@@ -91,6 +125,22 @@ function Gig() {
   if (!gig) {
     return <NotFound />
   }
+
+
+  const addChat = async () => {
+    try {
+      const data = {
+        sender_id: user.id, receiver_id: gig.user_id
+      }
+      const response = await fetchAddChat(data)
+      if (response.data.status === 200) {
+        window.location.href = '/messages'
+      }
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
   // window.scrollTo(0, 0);
   return (
 
@@ -99,22 +149,25 @@ function Gig() {
         <div className="left">
           {/* <span className="breadcrumbs">Liverr {'>'} Graphics & Design {'>'}</span> */}
           <h1 className="uppercase my-3">{gig.title}</h1>
-          <div className="user">
-            <img
-              className="pp"
-              src={"https://images.pexels.com/photos/720327/pexels-photo-720327.jpeg?auto=compress&cs=tinysrgb&w=1600"}
-              alt=""
-            />
-            <span>{gig.user.fname + ' ' + gig.user.lname}</span>
+          <Link to={'/profile/' + gig.user_id}>
+            <div className="user">
+              <img
+                className="pp"
+                src={gig.user.profileImg ? `http://127.0.0.1:8000/images/profile/${gig.user.profileImg}` : "https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg"}
+                alt=""
+              />
+              <span>{gig.user.fname + ' ' + gig.user.lname}</span>
 
-            <div className="stars">
-              {stars && [...Array(stars)].map((_, index) =>
-                <img src="/img/star.png" alt="" key={index} />
-              ) || null}
-              <span>{stars || 0}</span>
+              <div className="stars">
+                {stars && [...Array(stars)].map((_, index) =>
+                  <img src="/img/star.png" alt="" key={index} />
+                ) || null}
+                <span>{stars || 0}</span>
+              </div>
+
             </div>
+          </Link>
 
-          </div>
           <Slider {...settings} className='slide'>
             {gig.images.map((item, index) =>
               <img
@@ -133,20 +186,27 @@ function Gig() {
             <h2 className="uppercase text-lg">About The Seller</h2>
             <div className="user">
               <img
-                src="https://images.pexels.com/photos/720327/pexels-photo-720327.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                src={gig.user.profileImg ? `http://127.0.0.1:8000/images/profile/${gig.user.profileImg}` : "https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg"}
                 alt=""
               />
               <div className="info">
                 <span>{gig.user.fname + ' ' + gig.user.lname}</span>
                 <div className="stars">
-                  <img src="/img/star.png" alt="" />
-                  <img src="/img/star.png" alt="" />
-                  <img src="/img/star.png" alt="" />
-                  <img src="/img/star.png" alt="" />
-                  <img src="/img/star.png" alt="" />
-                  <span>5</span>
+                {userStars && [...Array(parseInt(userStars))].map((_, index) =>
+                  <img src="/img/star.png" alt="" key={index} />
+                ) || null}
+                  <span>{userStars}</span>
                 </div>
-                <button>Contact Me</button>
+                {
+                  parseInt(gig.user_id) !== parseInt(user.id) ?
+                    <button onClick={addChat}>
+                      Contact Me
+                    </button>
+                    :
+                    <Link to={`/MyProfile`} className="uppercase border border-gray-700 rounded-md text-sm px-4 py-2">
+                      Edit Profile
+                    </Link>
+                }
               </div>
             </div>
             <div className="box">
@@ -157,15 +217,15 @@ function Gig() {
                 </div>
                 <div className="item">
                   <span className="title">Member since</span>
-                  <span className="desc">Aug 2022</span>
+                  <span className="desc">{format(gig.user.created_at)}</span>
                 </div>
                 <div className="item">
-                  <span className="title">Avg. response time</span>
-                  <span className="desc">4 hours</span>
+                  <span className="title">First delivery</span>
+                  <span className="desc">{format(allGigs[0].created_at)}</span>
                 </div>
                 <div className="item">
                   <span className="title">Last delivery</span>
-                  <span className="desc">1 day</span>
+                  <span className="desc">{format(allGigs[allGigs.length - 1].created_at)}</span>
                 </div>
                 <div className="item">
                   <span className="title">Languages</span>
@@ -174,32 +234,29 @@ function Gig() {
               </div>
               <hr />
               <p>
-                My name is Anna, I enjoy creating AI generated art in my spare
-                time. I have a lot of experience using the AI program and that
-                means I know what to prompt the AI with to get a great and
-                incredibly detailed result.
+                {gig.user.bio}
               </p>
             </div>
           </div>
           <div className="reviews">
             <div className="flex justify-between items-center pb-12">
               <h2 className="uppercase text-lg">Reviews</h2>
-              {!modal &&
-                <button className="bg-[#1dbf73] text-white px-4 py-1  w-[130px] rounded-sm hover:opacity-85" onClick={() => setModal(!modal)}>
+              {modal !== 'rating' && gig.user_id !== user.id &&
+                <button className="bg-[#1dbf73] text-white px-4 py-1  w-[130px] rounded-sm hover:opacity-85" onClick={() => setModal('rating')}>
                   Add Review
                 </button>}
             </div>
-            <Modal isOpen={modal} onClose={() => setModal(false)}>
-              {modal && <Rating gig={gig} setModal={setModal} />}
+            <Modal isOpen={modal === 'rating'} onClose={() => setModal(false)}>
+              {modal === 'rating' && <Rating gig={gig} setModal={setModal} setReview={setReview} review={review} id={id} />}
             </Modal>
 
-            {reviews && reviews.map((item) =>
+            {reviews && review.map((item) =>
               <div className="item">
                 <div className="flex justify-between items-center">
                   <div className="user">
                     <img
                       className="pp"
-                      src="https://images.pexels.com/photos/839586/pexels-photo-839586.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                      src={item.user.profileImg ? `http://127.0.0.1:8000/images/profile/${item?.user?.profileImg}` : "https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg"}
                       alt=""
                     />
                     <div className="info">
@@ -219,7 +276,8 @@ function Gig() {
                         </button>
 
                       }
-                    </div>}
+                    </div>
+                  }
                 </div>
 
                 <div className="stars flex items-center justify-start">
@@ -254,11 +312,11 @@ function Gig() {
               <h2>Simple</h2>
               <div className={toggleClassName === 1 ? 'actve-line' : 'line'}></div>
             </div>
-            <div className="packsDiv" onClick={() => changePack(2)}>
+            <div className="packsDiv opacity-60">
               <h2>Standard</h2>
               <div className={toggleClassName === 2 ? 'actve-line' : 'line'}></div>
             </div>
-            <div className="packsDiv" onClick={() => changePack(3)}>
+            <div className="packsDiv opacity-60">
               <h2>Premium</h2>
               <div className={toggleClassName === 3 ? 'actve-line' : 'line'}></div>
             </div>
@@ -266,40 +324,29 @@ function Gig() {
           <div className="packages">
             <div className={toggleClassName === 1 ? 'active-div' : 'hidde'}>
               <div className="price">
-                <h3>1 AI generated image</h3>
-                <h2>$ 59.99</h2>
+                <h3>{gig.title}</h3>
+                <h2>$ {gig.price}</h2>
               </div>
               <p>
-                I will create a unique high quality AI generated image based on a
-                description that you give me
+                {gig.shortDescription}
               </p>
-              <div className="details">
+              <div className="details mb-2">
                 <div className="item">
                   <img src="/img/clock.png" alt="" />
-                  <span>2 Days Delivery</span>
+                  <span>{gig.deliveryTime} Days Delivery</span>
                 </div>
                 <div className="item">
                   <img src="/img/recycle.png" alt="" />
-                  <span>3 Revisions</span>
+                  <span>{gig.revisionNumber} Revisions</span>
                 </div>
               </div>
               <div className="features">
-                <div className="item">
-                  <img src="/img/greencheck.png" alt="" />
-                  <span>Prompt writing</span>
-                </div>
-                <div className="item">
-                  <img src="/img/greencheck.png" alt="" />
-                  <span>Artwork delivery</span>
-                </div>
-                <div className="item">
-                  <img src="/img/greencheck.png" alt="" />
-                  <span>Image upscaling</span>
-                </div>
-                <div className="item">
-                  <img src="/img/greencheck.png" alt="" />
-                  <span>Additional design</span>
-                </div>
+                {gig.features.map(ftr => (
+                  <div className="item">
+                    <img src="/img/greencheck.png" alt="" />
+                    <span>{ftr.feature}</span>
+                  </div>
+                ))}
               </div>
             </div>
             <div className={toggleClassName === 2 ? 'active-div' : 'hidde'}>
@@ -379,8 +426,11 @@ function Gig() {
               </div>
             </div>
           </div>
-          <button>Continue</button>
+          <button onClick={() => setModal('pay')}>Continue</button>
         </div>
+        <Modal isOpen={modal === 'pay'} onClose={() => setModal(false)}>
+          {modal === 'pay' && <Pay gig={gig} setModal={setModal} />}
+        </Modal>
       </div>
     </div>
   );

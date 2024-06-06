@@ -12,8 +12,8 @@ const Slide = ({ children, slidesToShow, slidesToScroll}) => {
     dots: false,
     infinite: true,
     speed: 400,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 4 ,
+    slidesToScroll: 4 ,
     nextArrow : <IoArrowForward clasName="nextArrow" />,
     prevArrow : <MdArrowBack clasName="prevArrow" />
   };

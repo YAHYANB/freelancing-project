@@ -2,10 +2,14 @@ import "./Footer.scss";
 
 function Footer() {
   return (
+    
     <div className="footer">
+      
       <div className="container">
+      <hr />
+
         <div className="top">
-          <div className="item">
+          {/* <div className="item">
             <h2>Categories</h2>
             <span>Graphics & Design</span>
             <span>Digital Marketing</span>
@@ -18,57 +22,34 @@ function Footer() {
             <span>Lifestyle</span>
             <span>Photography</span>
             <span>Sitemap</span>
-          </div>
+          </div> */}
           <div className="item">
             <h2>About</h2>
-            <span>Press & News</span>
-            <span>Partnerships</span>
             <span>Privacy Policy</span>
             <span>Terms of Service</span>
-            <span>Intellectual Property Claims</span>
-            <span>Investor Relations</span>
-            <span>Contact Sales</span>
           </div>
           <div className="item">
             <h2>Support</h2>
             <span>Help & Support</span>
             <span>Trust & Safety</span>
-            <span>Selling on Liverr</span>
-            <span>Buying on Liverr</span>
           </div>
           <div className="item">
             <h2>Community</h2>
-            <span>Customer Success Stories</span>
-            <span>Community hub</span>
-            <span>Forum</span>
-            <span>Events</span>
             <span>Blog</span>
             <span>Influencers</span>
-            <span>Affiliates</span>
-            <span>Podcast</span>
-            <span>Invite a Friend</span>
-            <span>Become a Seller</span>
-            <span>Community Standards</span>
+
           </div>
           <div className="item">
-            <h2>More From Fiverr</h2>
-            <span>Liverr Business</span>
-            <span>Liverr Pro</span>
-            <span>Liverr Logo Maker</span>
-            <span>Liverr Guides</span>
-            <span>Get Inspired</span>
-            <span>Liverr Select</span>
-            <span>ClearVoice</span>
-            <span>Liverr Workspace</span>
-            <span>Learn</span>
-            <span>Working Not Working</span>
+            <h2>More From SwiftGig</h2>
+            <span>SwiftGig Business</span>
+            <span>SwiftGig Workspace</span>
+
           </div>
         </div>
-        <hr />
-        <div className="bottom">
-          <div className="left">
-            <h2>liverr</h2>
-            <span>© Liverr International Ltd. 2023</span>
+        <div className="bottom pt-36 flex items-center">
+          <div className="left flex items-center">
+            <h2>SwiftGig</h2>
+            <span>© SwiftGig International Ltd. 2024</span>
           </div>
           <div className="right">
             <div className="social">

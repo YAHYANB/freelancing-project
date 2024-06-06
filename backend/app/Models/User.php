@@ -20,6 +20,12 @@ class User extends Authenticatable
         'fname',
         'lname',
         'country',
+        'profileImg',
+        'description',
+        'total_earnings',
+        'displayName',
+        'bio',
+        'url',
         'email',
         'password',
     ];
@@ -31,6 +37,39 @@ class User extends Authenticatable
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+    
+    public function boughtOrders()
+    {
+        return $this->hasMany(Order::class, 'buyer_id');
+    }
+
+    public function soldOrders()
+    {
+        return $this->hasMany(Order::class, 'seller_id');
+    }
+
+    public function boughtPayments()
+    {
+        return $this->hasMany(Payment::class, 'buyer_id');
+    }
+    public function soldPayments()
+    {
+        return $this->hasMany(Payment::class, 'seller_id');
+    }
+
+    public function skills()
+    {
+        return $this->hasMany(Skills::class);
+    }
+    public function languages()
+    {
+        return $this->hasMany(Languages::class);
+    }
+
+    public function payouts()
+    {
+        return $this->hasMany(Payout::class);
     }
 
     /**
